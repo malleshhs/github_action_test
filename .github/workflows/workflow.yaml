@@ -2,8 +2,12 @@ name: My Workflow
 on: push
 
    jobs:
-    my-job:
-      runs-on: ubuntu-latest
-      steps:
+      build:
+          my-job:
+             runs-on: ubuntu-latest
+         steps:
+          name:checkout
+          uses: actions/checkout@v2
+          
         - name: My Step
           run: echo "Hello, World!"
