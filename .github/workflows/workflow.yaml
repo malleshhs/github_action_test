@@ -1,10 +1,6 @@
 name: First Workflow
-on:
-  workflow_run:
-    workflows:
-      - Manual Workflow
-    types:
-      - completed
+on: push
+  
 jobs:
   build:
     runs-on: ubuntu-latest
