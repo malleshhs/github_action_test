@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: hello step
         run:  |
-        echo "well come to GHA"
-        echo "myname is mallesh"
-        echo "3rd line"
+          echo "well come to GHA"
+          echo "myname is mallesh"
+          echo "3rd line"
   
