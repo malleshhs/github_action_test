@@ -7,7 +7,7 @@ jobs:
         - name: checkout Action
           uses: actions/checkout@v4
         - name: print intex.html file continue-on-error
-          run: cat intex.html
+          run: cat index.html
    
      
       
