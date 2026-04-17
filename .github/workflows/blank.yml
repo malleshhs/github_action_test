@@ -1,21 +1,21 @@
 name: Slimple workflow
 on: workflow_dispatch
 jobs:   
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build step
-        run: echo "A Build demo"
-   test:
-     runs-on: ubuntu-latest
-     steps:
-       - name: Test step
-         run: echo "Running test case step"
-    deploy:
+    build:
       runs-on: ubuntu-latest
-      step: 
-        - name: deploy step
-          run: echo "deploy the code to app step"
+      steps:
+        - name: Build step
+          run: echo "A Build demo"
+     test:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Test step
+           run: echo "Running test case step"
+      deploy:
+        runs-on: ubuntu-latest
+        steps: 
+          - name: deploy step
+            run: echo "deploy the code to app step"
     
      
       
