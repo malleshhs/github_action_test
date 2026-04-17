@@ -1,11 +1,13 @@
-name: Slimple workflow
+name: GitHub Actions
 on:   push
 jobs:   
     build:
       runs-on: ubuntu-latest
       steps:
-        - name: Build step
-          run: echo "A Build demo, ${{ vars.MY_NAME }}"
+        - name: checkout Action
+          uses: actions/checkout@v4
+        - name: print intex.html file continue-on-error
+          run: cat intex.html
    
      
       
