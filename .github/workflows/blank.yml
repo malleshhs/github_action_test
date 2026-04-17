@@ -1,13 +1,17 @@
-name: GitHub Actions
+name: Deploy HTML to S3 bucket
 on:   push
 jobs:   
-    build:
+    deploy:
       runs-on: ubuntu-latest
       steps:
-        - name: checkout Action
+        - name: checkout code from repo
           uses: actions/checkout@v4
-        - name: print intex.html file continue-on-error
-          run: cat index.html
+        - name: configur AWS credintials
+          uses: aws-actions/configure-aws-credentials@4
+          with:
+             aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+             aws-secrets-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+             aws-region: ap-southeast-2
    
      
       
