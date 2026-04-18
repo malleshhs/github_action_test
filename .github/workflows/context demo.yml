@@ -32,6 +32,7 @@ jobs:
           echo "Actor: ${{ github.actor }}"
           echo "SHA: ${{ github.sha }}"
           echo "Ref: ${{ github.ref }}"
+          echo "${{toJson(github)}}"
       
       - name: Display environment variables
         run: |
