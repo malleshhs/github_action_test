@@ -1,0 +1,65 @@
+name: Outputs Demo
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      app-version: ${{ steps.set-version.outputs.version }}
+      build-time: ${{ steps.get-time.outputs.time }}
+    steps:
+      - name: Set version output
+        id: set-version
+        run: |
+          VERSION="1.2.3"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Get current time
+        id: get-time
+        run: |
+          CURRENT_TIME=$(date +"%Y-%m-%d %H:%M:%S")
+          echo "time=$CURRENT_TIME" >> $GITHUB_OUTPUT
+
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+    outputs:
+      artifact-name: ${{ steps.create-artifact.outputs.artifact }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Display setup outputs
+        run: |
+          echo "App version from setup: ${{ needs.setup.outputs.app-version }}"
+          echo "Build time from setup: ${{ needs.setup.outputs.build-time }}"
+      
+      - name: Create artifact
+        id: create-artifact
+        run: |
+          ARTIFACT_NAME="my-app-${{ needs.setup.outputs.app-version }}.jar"
+          echo "artifact=$ARTIFACT_NAME" >> $GITHUB_OUTPUT
+          # Simulate creating artifact
+          echo "Creating $ARTIFACT_NAME"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    steps:
+      - name: Deploy application
+        run: |
+          echo "Deploying ${{ needs.build.outputs.artifact-name }}"
+          echo "Version: ${{ needs.setup.outputs.app-version }}"
+          echo "Build time: ${{ needs.setup.outputs.build-time }}"
+          echo "Environment: ${{ inputs.environment || 'dev' }}"
+      
+      - name: Step with output
+        id: deploy-step
+        run: |
+          DEPLOY_STATUS="success"
+          echo "status=$DEPLOY_STATUS" >> $GITHUB_OUTPUT
+      
+      - name: Use step output
+        run: |
+          echo "Deployment status: ${{ steps.deploy-step.outputs.status }}"
