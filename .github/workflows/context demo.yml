@@ -1,0 +1,57 @@
+name: Context Variables Demo
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+env:
+  GLOBAL_ENV: 'global-value'
+
+jobs:
+  context-demo:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      JOB_ENV: 'job-value'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Display GitHub context
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "Ref: ${{ github.ref }}"
+      
+      - name: Display environment variables
+        run: |
+          echo "Global env: $GLOBAL_ENV"
+          echo "Job env: $JOB_ENV"
+          echo "Runner OS: ${{ runner.os }}"
+      
+      - name: Display inputs and secrets
+        run: |
+          echo "Input environment: ${{ inputs.environment }}"
+          echo "Environment name: ${{ env.name }}"
+          # Note: secrets would be accessed like ${{ secrets.MY_SECRET }}
+      
+      - name: Display job and matrix context
+        run: |
+          echo "Job status: ${{ job.status }}"
+          echo "Job name: ${{ github.job }}"
+      
+      - name: Display needs context (if applicable)
+        run: |
+          # This would show outputs from dependent jobs
+          # echo "Previous job output: ${{ needs.setup.outputs.some-output }}"
+          echo "No dependent jobs in this example"
