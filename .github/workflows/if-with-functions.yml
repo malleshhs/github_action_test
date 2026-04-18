@@ -1,0 +1,42 @@
+name: If-Function Demo
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy to production?'
+        required: true
+        default: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: echo "Running tests..."
+
+      - name: Set build output
+        id: set-build
+        run: |
+          echo "build_status=ok" >> $GITHUB_OUTPUT
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: |
+      ${{ github.event_name == 'workflow_dispatch' &&
+          contains(inputs.deploy, 'true') &&
+          success() }}
+    steps:
+      - name: Deploy application
+        run: echo "Deploying because deploy input is true and previous job succeeded."
+      
+      - name: Check branch
+        if: ${{ startsWith(github.ref, 'refs/heads/main') }}
+        run: echo "This is the main branch."
+
+      - name: Tag deployment
+        if: ${{ contains(github.ref, 'refs/tags/') }}
+        run: echo "This is a tag build."
