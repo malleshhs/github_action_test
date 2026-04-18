@@ -1,0 +1,11 @@
+name: Env-Demo
+on: workflow_dispatch
+env:
+  APP_ENV: "dev"
+jobs:
+  env-demo:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Connectimg to Env
+        run: echon "App is connecting to $APP_ENV"
+        
