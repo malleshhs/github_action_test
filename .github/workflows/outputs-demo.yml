@@ -1,6 +1,5 @@
 name: Outputs Demo
-on:
-  workflow_dispatch:
+on: push
 
 jobs:
   setup:
