@@ -17,3 +17,5 @@ jobs:
     steps:
       - name: deploy the app
         run: echo "deploy the application to ${{ inputs.environment }}"
+      - name: display every git hub actions context variables
+        run: echo "${{toJson(github)}}"
